@@ -18,6 +18,8 @@ const DeleteAccount: React.FC = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Header />
+      {/* Spacer to offset fixed header height */}
+      <div className="h-12 sm:h-14 lg:h-16" aria-hidden="true" />
       <section className="container mx-auto px-4 md:px-6 lg:px-8 py-12 md:py-16 lg:py-20 max-w-3xl">
         {/* Breadcrumb */}
         <motion.div
