@@ -69,9 +69,14 @@ export default function Header() {
       role="banner"
     >
       <div className="w-full px-2 sm:px-3 md:px-4 lg:px-6">
-        <div className="flex items-center justify-between h-12 sm:h-14 lg:h-16">
-          {/* Left side - Logo */}
-          <div className="flex items-center space-x-1 flex-shrink-0">
+        <nav className="flex items-center h-12 sm:h-14 lg:h-16" role="navigation" style={{ justifyContent: 'space-between', maxWidth: '1200px', margin: '0 auto' }}>
+          {/* Logo at left */}
+          <button 
+            onClick={() => handleNavClick('#home')}
+            className="flex items-center space-x-1 flex-shrink-0 hover:opacity-80 transition-opacity duration-200 focus:outline-none focus:ring-2 focus:ring-accentGold/50 rounded-md p-1"
+            aria-label="Go to home"
+            style={{ marginLeft: '0' }}
+          >
             <img
               src={svgLogo}
               alt="PlayOra logo"
@@ -83,47 +88,55 @@ export default function Header() {
             <span className="text-sm sm:text-base lg:text-lg font-extrabold tracking-tight text-foreground">
               PlayOra
             </span>
-          </div>
+          </button>
 
-          {/* Right side - Navigation and Download Button */}
-          <div className="flex items-center space-x-0.5 sm:space-x-1 lg:space-x-2 flex-nowrap">
-            {/* Navigation - Right side alignment */}
-            <nav className="hidden md:flex items-center space-x-0.5 lg:space-x-1 flex-nowrap" role="navigation">
-              {navItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => handleNavClick(item.href)}
-                  className={`text-xs font-bold transition-all duration-200 relative group whitespace-nowrap px-1 py-1 rounded-md flex-shrink-0 ${
-                    activeSection === item.id 
-                      ? 'text-accentGold bg-accentGold/10' 
-                      : 'text-foreground hover:text-accentGold hover:bg-accentGold/5'
-                  }`}
-                >
-                  {item.label}
-                  <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-accentGold transition-all duration-300 group-hover:w-full ${
-                    activeSection === item.id ? 'w-full' : ''
-                  }`} />
-                </button>
-              ))}
-            </nav>
-
-            {/* Download Button - Right side alignment */}
+          {/* Desktop nav items - positioned with controlled spacing */}
+          <div 
+            className="hidden md:flex items-center space-x-0.5 sm:space-x-1 lg:space-x-2 flex-nowrap"
+            style={{ marginRight: '0', maxWidth: '750px' }}
+          >
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => handleNavClick(item.href)}
+                className={`text-xs font-bold transition-all duration-200 relative group whitespace-nowrap px-1 py-1 rounded-md flex-shrink-0 ${
+                  activeSection === item.id 
+                    ? 'text-accentGold bg-accentGold/10' 
+                    : 'text-white hover:text-accentGold hover:bg-accentGold/5'
+                }`}
+                style={{ 
+                  color: activeSection === item.id ? '#fbbf24' : '#ffffff',
+                  textShadow: '0 1px 3px rgba(0, 0, 0, 0.5)',
+                  fontWeight: '600'
+                }}
+              >
+                {item.label}
+                <span className={`absolute -bottom-1 left-0 w-0 h-0.5 bg-accentGold transition-all duration-300 group-hover:w-full ${
+                  activeSection === item.id ? 'w-full' : ''
+                }`} />
+              </button>
+            ))}
             <Button 
               onClick={() => handleNavClick('#download')}
-              className="hidden md:block bg-primary-light hover:bg-primary text-white px-2 py-1.5 rounded-full transition-all duration-200 hover:shadow-green font-semibold tracking-wide text-xs whitespace-nowrap flex-shrink-0"
+              className="ml-2 bg-primary-light hover:bg-primary text-white px-3 py-2 rounded-full transition-all duration-200 hover:shadow-green font-semibold tracking-wide text-xs whitespace-nowrap flex-shrink-0"
+              style={{ 
+                minWidth: '120px',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              }}
             >
               Download App
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle - Positioned absolutely on right */}
+          {/* Mobile menu toggle - positioned on the right */}
           <Button
             variant="ghost"
             size="sm"
             onClick={handleMenuToggle}
-            className="md:hidden absolute right-4 p-2 text-foreground hover:text-accentGold hover:bg-accentGold/10"
+            className="md:hidden p-2 text-foreground hover:text-accentGold hover:bg-accentGold/10"
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
+            style={{ marginRight: '0' }}
           >
             {isMenuOpen ? (
               <X className="w-6 h-6" />
@@ -131,7 +144,7 @@ export default function Header() {
               <Menu className="w-6 h-6" />
             )}
           </Button>
-        </div>
+        </nav>
 
         {/* Mobile Navigation Menu */}
         <div

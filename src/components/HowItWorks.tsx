@@ -58,7 +58,7 @@ export default function HowItWorks() {
       role="region"
       aria-labelledby="how-it-works-heading"
     >
-      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
+      <div className="container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 overflow-visible">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.div
@@ -82,12 +82,12 @@ export default function HowItWorks() {
         </div>
 
         {/* Steps Timeline */}
-        <div className="relative">
+        <div className="relative overflow-visible">
           {/* Connection Line - Hidden on mobile */}
           <div className="hidden lg:block absolute top-1/2 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accentGold to-primary transform -translate-y-1/2 rounded-full" />
 
           {/* Steps Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-4 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 sm:gap-8 lg:gap-4 relative z-10 overflow-visible" style={{ paddingTop: '40px', paddingBottom: '40px', paddingLeft: '20px', paddingRight: '20px' }}>
             {steps.map((step, index) => {
               const Icon = step.icon;
               
@@ -99,19 +99,20 @@ export default function HowItWorks() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   className="text-center group"
+                  style={{ paddingTop: '16px', paddingBottom: '16px' }}
                 >
                   {/* Step Card */}
-                  <div className="bg-background-secondary rounded-2xl p-4 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-border hover:border-primary/20 hover:-translate-y-2">
+                  <div className="bg-background-secondary rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-border/50 hover:border-primary/30 hover:-translate-y-2 relative overflow-visible" style={{ marginTop: '20px', marginBottom: '20px', marginLeft: '20px', marginRight: '20px' }}>
+                    {/* Step Number - At the side, fully visible */}
+                    <div className="absolute -left-4 top-1/2 transform -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 bg-primary text-textLight rounded-full flex items-center justify-center text-sm sm:text-base font-bold z-30 shadow-xl border-2 border-background" style={{ borderColor: 'var(--background)' }}>
+                      {step.id}
+                    </div>
+                    
                     {/* Step Number & Icon */}
-                    <div className="relative mb-4 sm:mb-6">
-                      {/* Step Number */}
-                      <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 w-6 h-6 sm:w-8 sm:h-8 bg-primary text-textLight rounded-full flex items-center justify-center text-xs sm:text-sm font-bold">
-                        {step.id}
-                      </div>
-                      
+                    <div className="relative mb-6 sm:mb-8">
                       {/* Icon Background */}
-                      <div className={`w-12 h-12 sm:w-16 sm:h-16 ${step.color} rounded-2xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300`}>
-                        <Icon className="w-6 h-6 sm:w-8 sm:h-8 text-textLight" />
+                      <div className={`w-16 h-16 sm:w-20 sm:h-20 ${step.color} rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
+                        <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-textLight" />
                       </div>
                     </div>
                     

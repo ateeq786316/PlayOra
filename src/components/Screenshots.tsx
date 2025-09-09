@@ -225,16 +225,16 @@ export default function Screenshots() {
           <p className="text-lg text-text-secondary mb-6">
             Experience PlayOra yourself
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2">
+          <div className="flex flex-col md:flex-row gap-4 md:gap-6 justify-center items-center px-1 md:px-2 w-full max-w-2xl mx-auto">
             <Button
               onClick={() => document.getElementById('download')?.scrollIntoView({ behavior: 'smooth' })}
-              className="bg-primary hover:bg-primary-dark text-textLight px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all duration-300 hover:shadow-green hover:scale-105 w-full sm:w-auto"
+              className="bg-primary hover:bg-primary-dark text-textLight rounded-full font-semibold transition-all duration-300 hover:shadow-green hover:scale-105 w-full md:w-auto min-h-[48px] text-xs md:text-base px-3 md:px-6 py-3 md:py-4"
             >
               Download for Android
             </Button>
             <Button
               variant="outline"
-              className="border-primary text-primary hover:bg-primary hover:text-textLight px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
+              className="border-primary text-primary hover:bg-primary hover:text-textLight rounded-full font-semibold transition-all duration-300 w-full md:w-auto min-h-[48px] text-xs md:text-base px-3 md:px-6 py-3 md:py-4"
             >
               Coming Soon on iOS
             </Button>

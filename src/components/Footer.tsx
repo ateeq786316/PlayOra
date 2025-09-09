@@ -4,10 +4,13 @@
  */
 
 import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import playoraLogo from '../assets/playora-logo.svg';
 
 export default function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const socialLinks = [
     { icon: Facebook, href: 'https://www.facebook.com/share/1CDQZ6nJY1/', label: 'Facebook' },
     { icon: Instagram, href: 'https://www.instagram.com/playora.app?igsh=dGdkMmZnamxsczR2', label: 'Instagram' },
@@ -17,6 +20,10 @@ export default function Footer() {
 
   const handleNavClick = (href: string) => {
     const elementId = href.replace('#', '');
+    if (location.pathname !== '/') {
+      navigate(`/${href}`);
+      return;
+    }
     document.getElementById(elementId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
