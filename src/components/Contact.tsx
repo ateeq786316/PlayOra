@@ -84,7 +84,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-primary text-sm sm:text-base">Email</h4>
-                  <p className="text-text-secondary text-sm sm:text-base">support@playora.app</p>
+                  <p className="text-text-secondary text-sm sm:text-base">playorahelpcenter@gmail.com</p>
                 </div>
               </div>
               
@@ -94,7 +94,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-primary text-sm sm:text-base">Phone</h4>
-                  <p className="text-text-secondary text-sm sm:text-base">+91 98765 43210</p>
+                  <p className="text-text-secondary text-sm sm:text-base">+92 334 8056433</p>
                 </div>
               </div>
               
