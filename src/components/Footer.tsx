@@ -97,8 +97,8 @@ export default function Footer() {
             © 2024 PlayOra. All rights reserved.
           </p>
           <div className="flex space-x-4 sm:space-x-6 mt-3 sm:mt-4 md:mt-0">
-            <a href="#" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Privacy Policy</a>
-            <a href="#" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Terms of Service</a>
+            <a href="/privacy-policy" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Privacy Policy</a>
+            <a href="/delete-account" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Delete Account</a>
           </div>
         </div>
       </div>
