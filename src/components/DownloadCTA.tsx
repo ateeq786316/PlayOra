@@ -34,7 +34,7 @@ export default function DownloadCTA() {
 
   const handlePlayStoreClick = () => {
     // In a real app, this would link to the actual Play Store
-    window.open('https://play.google.com/store', '_blank', 'noopener,noreferrer');
+    window.open('https://play.google.com/store/apps/details?id=com.foryoubrothers.playzone&pcampaignid=web_share', '_blank', 'noopener,noreferrer');
   };
 
   const handleAppStoreClick = () => {
@@ -74,7 +74,7 @@ export default function DownloadCTA() {
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-textLight/90 max-w-3xl mx-auto leading-relaxed px-2">
               Join the sports revolution! Download PlayOra now and start booking grounds, 
-              building teams, and connecting with players in your city.
+              building teams, and connecting with players worldwide.
             </p>
           </motion.div>
         </div>

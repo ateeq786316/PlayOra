@@ -12,8 +12,8 @@ export default function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
   const socialLinks = [
-    { icon: Facebook, href: 'https://www.facebook.com/share/1CDQZ6nJY1/', label: 'Facebook' },
-    { icon: Instagram, href: 'https://www.instagram.com/playora.app?igsh=dGdkMmZnamxsczR2', label: 'Instagram' },
+    { icon: Facebook, href: 'https://www.facebook.com/profile.php?id=61578953536480', label: 'Facebook' },
+    { icon: Instagram, href: 'https://www.instagram.com/playora.app/', label: 'Instagram' },
     { icon: Youtube, href: '#', label: 'YouTube' },
     { icon: Mail, href: 'mailto:playorahelpcenter@gmail.com', label: 'Email' }
   ];
@@ -38,7 +38,7 @@ export default function Footer() {
               <span className="text-xl sm:text-2xl font-bold">PlayOra</span>
             </div>
             <p className="text-textLight/80 mb-4 sm:mb-6 max-w-md text-sm sm:text-base">
-              The ultimate sports booking and community app. Connect with players, book grounds, and enjoy your favorite sports like never before.
+              The ultimate app to book sports grounds and build your team worldwide. Connect with players, book grounds, and enjoy your favorite sports like never before.
             </p>
             <div className="flex space-x-3 sm:space-x-4">
               {socialLinks.map(({ icon: Icon, href, label }) => (
@@ -87,7 +87,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
                 <Phone className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                <span className="text-textLight/80 text-sm sm:text-base">+92 334 8056433</span>
+                <span className="text-textLight/80 text-sm sm:text-base">+92 *** *******</span>
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
                 <MapPin className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />

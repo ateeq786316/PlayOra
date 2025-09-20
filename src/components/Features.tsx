@@ -130,7 +130,7 @@ export default function Features() {
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-2">
               Everything you need to find, book, and enjoy sports activities with your community.
-              PlayOra brings players together through innovative features designed for modern athletes.
+              PlayOra brings players together through innovative features designed for athletes worldwide.
             </p>
           </motion.div>
         </div>

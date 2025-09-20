@@ -106,7 +106,7 @@ export default function Screenshots() {
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-2">
               Take a peek at PlayOra's intuitive interface designed to make sports booking 
-              and team management effortless and enjoyable.
+              and team management effortless and enjoyable for players worldwide.
             </p>
           </motion.div>
         </div>

@@ -134,8 +134,8 @@ export default function Testimonials() {
               <span className="text-primary block lg:inline lg:ml-3">Say About Us</span>
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-2">
-              Join thousands of satisfied players who have transformed their sporting 
-              experience with PlayOra. Here's what our community has to say.
+              Join thousands of satisfied players worldwide who have transformed their sporting 
+              experience with PlayOra. Here's what our global community has to say.
             </p>
           </motion.div>
         </div>

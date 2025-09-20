@@ -98,7 +98,7 @@ export default function BlogSection() {
             </h2>
             <p className="text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed">
               Stay updated with the latest sports tips, app features, community stories, 
-              and insights from the PlayOra team and community.
+              and insights from the PlayOra team and our global community.
             </p>
           </motion.div>
         </div>

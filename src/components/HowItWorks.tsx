@@ -76,7 +76,7 @@ export default function HowItWorks() {
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-2">
               Getting started with PlayOra is simple. Follow these 5 easy steps to transform 
-              your sporting experience and join thousands of active players.
+              your sporting experience and join thousands of players worldwide.
             </p>
           </motion.div>
         </div>
@@ -151,7 +151,7 @@ export default function HowItWorks() {
               Ready to Get Started?
             </h3>
             <p className="text-accentGold text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto px-2">
-              Join thousands of players who are already using PlayOra to enhance their sporting experience. 
+              Join thousands of players worldwide who are already using PlayOra to enhance their sporting experience. 
               Download now and book your first ground today!
             </p>
             <button

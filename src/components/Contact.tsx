@@ -67,7 +67,7 @@ export default function Contact() {
               Get in <span className="text-primary">Touch</span>
             </h2>
             <p className="text-base sm:text-lg lg:text-xl text-text-secondary max-w-3xl mx-auto leading-relaxed px-2">
-              Have questions about PlayOra? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              Have questions about PlayOra? We'd love to hear from you. Send us a message and we'll respond as soon as possible from our global team.
             </p>
           </motion.div>
         </div>
@@ -84,7 +84,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-primary text-sm sm:text-base">Email</h4>
-                  <p className="text-text-secondary text-sm sm:text-base">playorahelpcenter@gmail.com</p>
+                  <p className="text-text-secondary text-sm sm:text-base"><a href="mailto:playorahelpcenter@gmail.com" className="hover:text-primary transition-colors duration-200">playorahelpcenter@gmail.com</a></p>
                 </div>
               </div>
               
@@ -94,7 +94,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h4 className="font-semibold text-text-primary text-sm sm:text-base">Phone</h4>
-                  <p className="text-text-secondary text-sm sm:text-base">+92 334 8056433</p>
+                  <p className="text-text-secondary text-sm sm:text-base">+92 *** *******</p>
                 </div>
               </div>
               

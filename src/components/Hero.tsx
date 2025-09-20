@@ -58,8 +58,8 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-textLight mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-4">
-            The ultimate sports booking and community app. Find grounds, build teams, 
-            join challenges, and connect with players in your city.
+            The ultimate app to book sports grounds and build your team worldwide. Find grounds, build teams, 
+            join challenges, and connect with players worldwide.
           </p>
         </motion.div>
 
