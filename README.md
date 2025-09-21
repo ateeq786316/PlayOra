@@ -42,7 +42,38 @@ If you want to use your own email (`qasimtrustw@gmail.com`) as an admin:
 1. Make sure the user exists in your Supabase authentication system
 2. Run the [ADD_USER_AS_ADMIN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/ADD_USER_AS_ADMIN.sql) script in your Supabase SQL editor to assign admin role
 
+## Deployment to Vercel
+
+### Environment Variables Configuration
+
+For the admin login to work on your live site, you must configure environment variables in Vercel:
+
+1. Go to your Vercel dashboard
+2. Select your PlayOra project
+3. Go to Settings > Environment Variables
+4. Add the following environment variables:
+
+```
+VITE_ADMIN_EMAIL=admin@playora.com
+VITE_ADMIN_PASSWORD=AdminPassword123!
+VITE_SUPABASE_URL=your_actual_supabase_url
+VITE_SUPABASE_KEY=your_actual_supabase_anon_key
+```
+
+Replace `your_actual_supabase_url` and `your_actual_supabase_anon_key` with your actual Supabase credentials.
+
+After adding the environment variables, redeploy your application.
+
 ## Troubleshooting
+
+### Admin Login Works Locally But Not On Live Site
+
+This is a common issue when deploying applications with hardcoded credentials. The environment variables must be configured in Vercel for the live site to work properly.
+
+Solution:
+1. Configure the environment variables as described in the "Deployment to Vercel" section
+2. Redeploy your application
+3. Try logging in again
 
 ### Persistent Access Denied Issues
 
