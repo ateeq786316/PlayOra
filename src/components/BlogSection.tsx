@@ -8,15 +8,36 @@ import { motion } from 'framer-motion';
 import { Search, Tag, Clock, ArrowRight, Filter } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { BlogController } from '../controllers/blogController';
+import { blogService } from '../services/blogService';
+import { BlogPost as SupabaseBlogPost } from '../lib/supabaseClient';
 import { BlogPost } from '../models/types';
 import { formatDate, getReadingTime, truncateText, debounce } from '../utils/helpers';
 import { useModal } from '../hooks/useModal';
 import BlogModal from './BlogModal';
+import { supabase } from '../lib/supabaseClient';
+
+// Helper function to convert Supabase BlogPost to existing BlogPost interface
+const convertSupabaseToBlogPost = (supabasePost: SupabaseBlogPost): BlogPost => {
+  return {
+    id: supabasePost.id.toString(),
+    slug: supabasePost.slug,
+    title: supabasePost.title,
+    excerpt: supabasePost.excerpt || '',
+    content: supabasePost.content,
+    date: supabasePost.date,
+    author: {
+      name: supabasePost.author_name,
+      avatar: supabasePost.author_avatar || ''
+    },
+    tags: Array.isArray(supabasePost.tags) ? supabasePost.tags : [],
+    cover: supabasePost.cover_image || ''
+  };
+};
 
 export default function BlogSection() {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState('');
   const [availableTags, setAvailableTags] = useState<string[]>([]);
@@ -28,24 +49,102 @@ export default function BlogSection() {
   // Load initial blogs and tags
   useEffect(() => {
     loadBlogs();
-    setAvailableTags(BlogController.getAllAvailableTags());
+    loadTags();
+    
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('blog-posts-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'blog_posts',
+        },
+        (payload) => {
+          // Add new blog post to the list
+          const newPost = convertSupabaseToBlogPost(payload.new as SupabaseBlogPost);
+          setBlogs(prevBlogs => [newPost, ...prevBlogs]);
+          loadTags(); // Refresh tags
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'blog_posts',
+        },
+        (payload) => {
+          // Update existing blog post
+          const updatedPost = convertSupabaseToBlogPost(payload.new as SupabaseBlogPost);
+          setBlogs(prevBlogs => 
+            prevBlogs.map(blog => 
+              blog.id === updatedPost.id.toString() ? updatedPost : blog
+            )
+          );
+          loadTags(); // Refresh tags
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: 'DELETE',
+          schema: 'public',
+          table: 'blog_posts',
+        },
+        (payload) => {
+          // Remove deleted blog post
+          setBlogs(prevBlogs => 
+            prevBlogs.filter(blog => blog.id !== payload.old.id.toString())
+          );
+          loadTags(); // Refresh tags
+        }
+      )
+      .subscribe();
+
+    // Clean up subscription
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const loadBlogs = async () => {
     setLoading(true);
+    setError(null);
     try {
-      const limit = showAll ? 20 : 3;
-      const response = await BlogController.loadBlogPage({
-        limit,
-        q: searchQuery,
-        tag: selectedTag
-      });
-      setBlogs(response.data);
-    } catch (error) {
-      console.error('Error loading blogs:', error);
+      let data: SupabaseBlogPost[] = [];
+      
+      if (searchQuery) {
+        data = await blogService.searchBlogs(searchQuery);
+      } else if (selectedTag) {
+        data = await blogService.fetchBlogsByTag(selectedTag);
+      } else {
+        data = await blogService.fetchPublishedBlogs();
+      }
+      
+      // Convert Supabase blog posts to existing BlogPost interface
+      const convertedBlogs = data.map(convertSupabaseToBlogPost);
+      
+      // Limit the number of blogs based on showAll state
+      const limit = showAll ? convertedBlogs.length : 3;
+      setBlogs(convertedBlogs.slice(0, limit));
+    } catch (err) {
+      console.error('Error loading blogs:', err);
+      setError('Failed to load blog posts. Please try again later.');
       setBlogs([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadTags = async () => {
+    try {
+      const tags = await blogService.fetchAllTags();
+      setAvailableTags(tags);
+    } catch (error) {
+      console.error('Error loading tags:', error);
+      // Don't show error to user for tags, just log it
     }
   };
 
@@ -167,8 +266,24 @@ export default function BlogSection() {
           </div>
         )}
 
+        {/* Error State */}
+        {error && (
+          <div className="text-center py-12">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-2xl mx-auto">
+              <h3 className="text-lg font-medium text-red-800 mb-2">Error Loading Blog Posts</h3>
+              <p className="text-red-600 mb-4">{error}</p>
+              <Button
+                onClick={loadBlogs}
+                className="bg-red-600 hover:bg-red-700 text-white"
+              >
+                Try Again
+              </Button>
+            </div>
+          </div>
+        )}
+
         {/* Blog Posts Grid */}
-        {!loading && (
+        {!loading && !error && (
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -195,6 +310,11 @@ export default function BlogSection() {
                         alt={`Cover image for ${blog.title}`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         loading="lazy"
+                        onError={(e) => {
+                          // Handle image loading errors
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                        }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                     </div>
@@ -251,16 +371,31 @@ export default function BlogSection() {
         )}
 
         {/* No Results */}
-        {!loading && blogs.length === 0 && (
+        {!loading && !error && blogs.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-xl text-text-secondary">
-              No blog posts found. Try adjusting your search or filters.
-            </p>
+            <div className="bg-background-secondary border border-border rounded-lg p-8 max-w-md mx-auto">
+              <Search className="w-12 h-12 text-text-secondary mx-auto mb-4" />
+              <h3 className="text-xl font-medium text-text-primary mb-2">No Blog Posts Found</h3>
+              <p className="text-text-secondary mb-4">
+                {searchQuery || selectedTag 
+                  ? 'Try adjusting your search or filters.' 
+                  : 'Check back later for new blog posts.'}
+              </p>
+              {(searchQuery || selectedTag) && (
+                <Button
+                  onClick={clearFilters}
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-textLight"
+                >
+                  Clear Filters
+                </Button>
+              )}
+            </div>
           </div>
         )}
 
         {/* Load More / Show All Toggle */}
-        {!loading && blogs.length > 0 && (
+        {!loading && !error && blogs.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
