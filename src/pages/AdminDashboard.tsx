@@ -7,6 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, LogOut } from 'lucide-react';
 import { authService } from '../services/authServiceUpdated';
+import { blogService } from '../services/blogService';
+import { BlogPost } from '../lib/supabaseClient';
 
 const AdminDashboard: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
