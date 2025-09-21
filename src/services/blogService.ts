@@ -1,5 +1,5 @@
 import { supabase, BlogPost } from '../lib/supabaseClient'
-import { authService } from './authService'
+import { authService } from './authServiceUpdated'
 
 // Validation functions
 const validateBlogPost = (post: Partial<BlogPost>): string[] => {

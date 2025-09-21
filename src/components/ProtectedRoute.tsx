@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getCurrentUser, isAdmin } from '../services/authService'
+import { getCurrentUser, isAdmin } from '../services/authServiceUpdated'
 import { useToast } from '../hooks/use-toast'
 
 interface ProtectedRouteProps {

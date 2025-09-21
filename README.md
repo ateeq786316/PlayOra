@@ -25,81 +25,50 @@ npm run preview
 
 ## Admin Access
 
-To access the admin panel, you have two options:
+To access the admin panel, use the following credentials:
 
-### Option 1: Use Hardcoded Development Credentials (Recommended for Development)
+- Email: `qasimtrustw@gmail.com`
+- Password: `Playora01`
 
-Log in with:
-- Email: `admin@playora.com`
-- Password: `AdminPassword123!`
+These credentials are now configured to work both in development and production environments.
 
-These credentials are hardcoded for development mode and will automatically be recognized as an admin user.
+## Environment Setup
 
-### Option 2: Add Your Own User as Admin
-
-If you want to use your own email (`qasimtrustw@gmail.com`) as an admin:
-
-1. Make sure the user exists in your Supabase authentication system
-2. Run the [ADD_USER_AS_ADMIN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/ADD_USER_AS_ADMIN.sql) script in your Supabase SQL editor to assign admin role
-
-## Deployment to Vercel
-
-### Environment Variables Configuration
-
-For the admin login to work on your live site, you must configure environment variables in Vercel:
-
-1. Go to your Vercel dashboard
-2. Select your PlayOra project
-3. Go to Settings > Environment Variables
-4. Add the following environment variables:
-
-```
-VITE_ADMIN_EMAIL=admin@playora.com
-VITE_ADMIN_PASSWORD=AdminPassword123!
-VITE_SUPABASE_URL=your_actual_supabase_url
-VITE_SUPABASE_KEY=your_actual_supabase_anon_key
-```
-
-Replace `your_actual_supabase_url` and `your_actual_supabase_anon_key` with your actual Supabase credentials.
-
-After adding the environment variables, redeploy your application.
+A [.env](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/.env) file has been created with the necessary environment variables. For production deployment, make sure to configure these variables in your hosting platform (Vercel, Netlify, etc.).
 
 ## Troubleshooting
 
+### "Access Denied - You must be an admin to access this page"
+
+If you're still getting this error, follow these steps:
+
+1. **Run Database Fix Script**: Execute [ENSURE_QASIM_ADMIN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/ENSURE_QASIM_ADMIN.sql) in your Supabase SQL editor to ensure your user has admin role
+
+2. **Fix RLS Policies**: Run [FIX_RLS_POLICIES_CLEAN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FIX_RLS_POLICIES_CLEAN.sql) to fix any Row Level Security issues
+
+3. **Clear Browser Data**: Clear your browser's cache, cookies, and localStorage
+
+4. **Restart Your Server**: If running locally, restart your development server
+
 ### Admin Login Works Locally But Not On Live Site
 
-This is a common issue when deploying applications with hardcoded credentials. The environment variables must be configured in Vercel for the live site to work properly.
-
-Solution:
-1. Configure the environment variables as described in the "Deployment to Vercel" section
-2. Redeploy your application
-3. Try logging in again
-
-### Persistent Access Denied Issues
-
-If you're still getting "Access Denied" after confirming your user has an admin role, try these steps:
-
-1. **Clear Browser Data**: Clear your browser's cache, cookies, and localStorage
-2. **Log Out and Log Back In**: Completely log out and log in again
-3. **Check Environment Variables**: Ensure your [.env](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/.env) file has the correct values
-4. **Run Full Authentication Fix**: Execute [FULL_AUTH_FIX.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FULL_AUTH_FIX.sql) in your Supabase SQL editor
+This issue has been resolved by:
+1. Creating a proper [.env](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/.env) file with the correct credentials
+2. Updating the authentication service to work in both development and production environments
+3. Ensuring the hardcoded credentials are recognized regardless of the environment
 
 ### 500 Server Error When Accessing Admin Panel
 
 If you encounter a 500 server error when trying to access the admin panel, it's likely due to Row Level Security (RLS) policies on the user_roles table. To fix this:
 
-1. Run [FULL_AUTH_FIX.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FULL_AUTH_FIX.sql) in your Supabase SQL editor
+1. Run [FIX_RLS_POLICIES_CLEAN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FIX_RLS_POLICIES_CLEAN.sql) in your Supabase SQL editor
 2. Try accessing the admin panel again
 
 ### 403 Forbidden Error When Creating Blog Posts
 
 If you encounter "403 Forbidden" or "row-level security policy" errors when creating blog posts, run the following SQL scripts in your Supabase SQL editor:
 
-1. **FIX_BLOG_POSTS_RLS.sql** - Fixes Row Level Security policies on blog_posts table
-2. **FIX_USER_ROLES_RLS.sql** - Fixes Row Level Security policies on user_roles table
-
-After applying these fixes, verify with:
-- **VERIFY_RLS_FIXES.sql** - Verifies that the RLS fixes are working correctly
+1. **FIX_RLS_POLICIES_CLEAN.sql** - Fixes Row Level Security policies on both blog_posts and user_roles tables
 
 ### "A listener indicated an asynchronous response" Error
 

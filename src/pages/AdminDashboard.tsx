@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { blogService } from '../services/blogService';
-import { authService } from '../services/authService';
 import BlogList from '../components/admin/BlogList';
 import BlogForm from '../components/admin/BlogForm';
-import { BlogPost } from '../lib/supabaseClient';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PlusCircle, LogOut } from 'lucide-react';
+import { authService } from '../services/authServiceUpdated';
 
 const AdminDashboard: React.FC = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
