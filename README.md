@@ -23,6 +23,66 @@ npm run build
 npm run preview
 ```
 
+## Admin Access
+
+To access the admin panel, you have two options:
+
+### Option 1: Use Hardcoded Development Credentials (Recommended for Development)
+
+Log in with:
+- Email: `admin@playora.com`
+- Password: `AdminPassword123!`
+
+These credentials are hardcoded for development mode and will automatically be recognized as an admin user.
+
+### Option 2: Add Your Own User as Admin
+
+If you want to use your own email (`qasimtrustw@gmail.com`) as an admin:
+
+1. Make sure the user exists in your Supabase authentication system
+2. Run the [ADD_USER_AS_ADMIN.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/ADD_USER_AS_ADMIN.sql) script in your Supabase SQL editor to assign admin role
+
+## Troubleshooting
+
+### Persistent Access Denied Issues
+
+If you're still getting "Access Denied" after confirming your user has an admin role, try these steps:
+
+1. **Clear Browser Data**: Clear your browser's cache, cookies, and localStorage
+2. **Log Out and Log Back In**: Completely log out and log in again
+3. **Check Environment Variables**: Ensure your [.env](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/.env) file has the correct values
+4. **Run Full Authentication Fix**: Execute [FULL_AUTH_FIX.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FULL_AUTH_FIX.sql) in your Supabase SQL editor
+
+### 500 Server Error When Accessing Admin Panel
+
+If you encounter a 500 server error when trying to access the admin panel, it's likely due to Row Level Security (RLS) policies on the user_roles table. To fix this:
+
+1. Run [FULL_AUTH_FIX.sql](file:///d:/ATEEQ%20MERN%20PORTFOLIO/PlayOra-loveable/playora-court-connect-main/FULL_AUTH_FIX.sql) in your Supabase SQL editor
+2. Try accessing the admin panel again
+
+### 403 Forbidden Error When Creating Blog Posts
+
+If you encounter "403 Forbidden" or "row-level security policy" errors when creating blog posts, run the following SQL scripts in your Supabase SQL editor:
+
+1. **FIX_BLOG_POSTS_RLS.sql** - Fixes Row Level Security policies on blog_posts table
+2. **FIX_USER_ROLES_RLS.sql** - Fixes Row Level Security policies on user_roles table
+
+After applying these fixes, verify with:
+- **VERIFY_RLS_FIXES.sql** - Verifies that the RLS fixes are working correctly
+
+### "A listener indicated an asynchronous response" Error
+
+This browser error typically occurs due to:
+1. Browser extensions interfering with the application
+2. Service workers caching issues
+3. Network interruptions
+
+To resolve:
+1. Try in an incognito/private window
+2. Disable browser extensions
+3. Clear browser cache completely
+4. Restart your development server
+
 ## 🛠 Supabase Setup
 
 To use the dynamic blog system with admin panel, you need to set up a Supabase database:
@@ -36,11 +96,19 @@ To use the dynamic blog system with admin panel, you need to set up a Supabase d
 - [INSERT_SAMPLE_BLOG_POSTS.sql](INSERT_SAMPLE_BLOG_POSTS.sql) - Add sample blog posts (optional)
 - [SETUP_ADMIN_USER.sql](SETUP_ADMIN_USER.sql) - Configure admin user with hardcoded credentials
 
-### Verification Tools:
-- [VERIFY_CONNECTION.js](VERIFY_CONNECTION.js) - Node.js script to verify backend connection
-- [VERIFY_SUPABASE_SETUP.sql](VERIFY_SUPABASE_SETUP.sql) - SQL script to verify database setup
-- [TestConnection.tsx](src/pages/TestConnection.tsx) - Frontend page to test connection
-- Navigate to `/test-connection` to run the frontend verification
+### Verification Tools
+
+This project includes several tools to verify that everything is working correctly:
+
+1. **VERIFY_CONNECTION.js** - Node.js script to verify Supabase connection
+2. **ConnectionTest.tsx** - Frontend component to test connection
+3. **TestConnection.tsx** - Test page route
+4. **VERIFY_SUPABASE_SETUP.sql** - SQL verification script
+
+To run the verification:
+1. Execute `VERIFY_SUPABASE_SETUP.sql` in your Supabase SQL editor
+2. Run `VERIFY_CONNECTION.js` with Node.js: `node VERIFY_CONNECTION.js`
+3. Navigate to `/test-connection` in your browser
 
 ## 🎨 Theme Customization
 

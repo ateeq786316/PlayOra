@@ -26,8 +26,8 @@ const Login: React.FC = () => {
 
   // Function to fill in hardcoded credentials for development
   const fillHardcodedCredentials = () => {
-    const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL || 'admin@playora.com';
-    const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'AdminPassword123!';
+    const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL || 'qasimtrustw@gmail.com';
+    const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'Playora01';
     
     setEmail(hardcodedEmail);
     setPassword(hardcodedPassword);
