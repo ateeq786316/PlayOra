@@ -36,6 +36,12 @@ To use the dynamic blog system with admin panel, you need to set up a Supabase d
 - [INSERT_SAMPLE_BLOG_POSTS.sql](INSERT_SAMPLE_BLOG_POSTS.sql) - Add sample blog posts (optional)
 - [SETUP_ADMIN_USER.sql](SETUP_ADMIN_USER.sql) - Configure admin user with hardcoded credentials
 
+### Verification Tools:
+- [VERIFY_CONNECTION.js](VERIFY_CONNECTION.js) - Node.js script to verify backend connection
+- [VERIFY_SUPABASE_SETUP.sql](VERIFY_SUPABASE_SETUP.sql) - SQL script to verify database setup
+- [TestConnection.tsx](src/pages/TestConnection.tsx) - Frontend page to test connection
+- Navigate to `/test-connection` to run the frontend verification
+
 ## 🎨 Theme Customization
 
 ### Changing Colors

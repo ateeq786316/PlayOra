@@ -11,6 +11,7 @@ import DeleteAccount from "./pages/DeleteAccount";
 import Login from "./pages/Login";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
+import TestConnection from "./pages/TestConnection";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,7 @@ const App = () => {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/test-connection" element={<TestConnection />} />
             <Route 
               path="/admin" 
               element={
