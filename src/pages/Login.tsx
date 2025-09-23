@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authServiceUpdated';
+import { authService } from '../services/authService';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,9 +15,24 @@ const Login: React.FC = () => {
     setError(null);
 
     try {
-      await authService.signIn(email, password);
-      navigate('/admin');
-    } catch (err) {
+      console.log('Attempting to sign in with:', email, password);
+      const result = await authService.signIn(email, password);
+      console.log('Sign in result:', result);
+      
+      // Check if user is admin
+      const isAdmin = await authService.isAdmin();
+      console.log('Is admin:', isAdmin);
+      
+      if (isAdmin) {
+        // Small delay to ensure state is updated
+        setTimeout(() => {
+          navigate('/admin');
+        }, 100);
+      } else {
+        setError('You must be an admin to access this page.');
+      }
+    } catch (err: any) {
+      console.error('Sign in error:', err);
       setError(err.message || 'Failed to sign in');
     } finally {
       setLoading(false);

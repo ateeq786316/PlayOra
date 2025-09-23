@@ -67,13 +67,20 @@ const BlogList: React.FC<BlogListProps> = ({ blogs, onEdit, onDelete }) => {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button
-                    onClick={() => onEdit(blog)}
+                    onClick={() => {
+                      console.log('Editing blog with ID:', blog.id);
+                      console.log('Blog object:', blog);
+                      onEdit(blog);
+                    }}
                     className="text-indigo-600 hover:text-indigo-900 mr-4"
                   >
                     Edit
                   </button>
                   <button
-                    onClick={() => onDelete(blog.id.toString())}
+                    onClick={() => {
+                      console.log('Deleting blog with ID:', blog.id);
+                      onDelete(blog.id.toString());
+                    }}
                     className="text-red-600 hover:text-red-900"
                   >
                     Delete

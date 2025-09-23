@@ -1,58 +1,78 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getCurrentUser, isAdmin } from '../services/authServiceUpdated'
-import { useToast } from '../hooks/use-toast'
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import { supabase } from '../lib/supabaseClient';
+import { authService } from '../services/authService';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isAuthorized, setIsAuthorized] = useState(false)
-  const navigate = useNavigate()
-  const { toast } = useToast()
+export default function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const [ready, setReady] = useState(false);
+  const [authed, setAuthed] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
-      try {
-        const user = await getCurrentUser()
-        const admin = await isAdmin()
-        
-        if (user && admin) {
-          setIsAuthorized(true)
-        } else {
-          toast({
-            title: "Access Denied",
-            description: "You must be an admin to access this page.",
-            variant: "destructive"
-          })
-          navigate('/login')
+      // First check if we have a dev user in localStorage
+      if (import.meta.env.DEV) {
+        const devUser = localStorage.getItem('dev-admin-user');
+        if (devUser) {
+          console.log('Found dev user in localStorage');
+          const user = JSON.parse(devUser);
+          const isAdmin = user.role === 'admin';
+          console.log('Dev user is admin:', isAdmin);
+          setAuthed(isAdmin);
+          setReady(true);
+          return;
         }
-      } catch (error) {
-        toast({
-          title: "Authentication Error",
-          description: "Failed to verify your credentials. Please try again.",
-          variant: "destructive"
-        })
-        navigate('/login')
-      } finally {
-        setIsLoading(false)
       }
-    }
+      
+      // Otherwise check Supabase session
+      const { data } = await supabase.auth.getSession();
+      console.log('Supabase session data:', data);
+      const isAuthenticated = !!data.session;
+      
+      if (isAuthenticated) {
+        // Check if user is admin
+        const isAdmin = await authService.isAdmin();
+        console.log('Supabase user is admin:', isAdmin);
+        setAuthed(isAdmin);
+      } else {
+        setAuthed(false);
+      }
+      
+      setReady(true);
+    };
+    
+    checkAuth();
+    
+    const { data: sub } = supabase.auth.onAuthStateChange(async (_e, session) => {
+      console.log('Auth state changed:', _e, session);
+      const isAuthenticated = !!session;
+      
+      if (isAuthenticated) {
+        // Check if user is admin
+        const isAdmin = await authService.isAdmin();
+        console.log('Auth state change - user is admin:', isAdmin);
+        setAuthed(isAdmin);
+      } else {
+        // Check if we have a dev user in localStorage
+        if (import.meta.env.DEV) {
+          const devUser = localStorage.getItem('dev-admin-user');
+          if (devUser) {
+            console.log('Found dev user in localStorage during auth state change');
+            const user = JSON.parse(devUser);
+            const isAdmin = user.role === 'admin';
+            console.log('Dev user is admin during auth state change:', isAdmin);
+            setAuthed(isAdmin);
+            return;
+          }
+        }
+        setAuthed(false);
+      }
+      
+      setReady(true);
+    });
+    
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
-    checkAuth()
-  }, [navigate, toast])
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
-
-  return isAuthorized ? <>{children}</> : null
+  if (!ready) return null; // or a spinner
+  return authed ? children : <Navigate to="/login" replace />;
 }
-
-export default ProtectedRoute

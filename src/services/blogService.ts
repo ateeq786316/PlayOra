@@ -1,42 +1,58 @@
 import { supabase, BlogPost } from '../lib/supabaseClient'
-import { authService } from './authServiceUpdated'
+import { authService } from './authService'
 
 // Validation functions
 const validateBlogPost = (post: Partial<BlogPost>): string[] => {
   const errors: string[] = []
   
-  if (!post.title || post.title.trim().length === 0) {
-    errors.push('Title is required')
-  } else if (post.title.length > 200) {
-    errors.push('Title must be less than 200 characters')
+  // Only require title if it's provided (for updates)
+  if (post.title !== undefined) {
+    if (post.title.trim().length === 0) {
+      errors.push('Title cannot be empty')
+    } else if (post.title.length > 200) {
+      errors.push('Title must be less than 200 characters')
+    }
   }
   
-  if (!post.slug || post.slug.trim().length === 0) {
-    errors.push('Slug is required')
-  } else if (!/^[a-z0-9-]+$/.test(post.slug)) {
-    errors.push('Slug can only contain lowercase letters, numbers, and hyphens')
+  // Only require slug if it's provided (for updates)
+  if (post.slug !== undefined) {
+    if (post.slug.trim().length === 0) {
+      errors.push('Slug cannot be empty')
+    } else if (!/^[a-z0-9-]+$/.test(post.slug)) {
+      errors.push('Slug can only contain lowercase letters, numbers, and hyphens')
+    }
   }
   
-  if (post.excerpt && post.excerpt.length > 500) {
+  // Only validate excerpt length if it's provided
+  if (post.excerpt !== undefined && post.excerpt !== null && post.excerpt.length > 500) {
     errors.push('Excerpt must be less than 500 characters')
   }
   
-  if (!post.content || post.content.trim().length === 0) {
-    errors.push('Content is required')
-  }
-  
-  if (!post.author_name || post.author_name.trim().length === 0) {
-    errors.push('Author name is required')
-  }
-  
-  if (post.tags && Array.isArray(post.tags)) {
-    if (post.tags.length > 10) {
-      errors.push('Maximum 10 tags allowed')
+  // Only require content if it's provided (for updates)
+  if (post.content !== undefined) {
+    if (post.content.trim().length === 0) {
+      errors.push('Content cannot be empty')
     }
-    
-    for (const tag of post.tags) {
-      if (tag.length > 30) {
-        errors.push('Each tag must be less than 30 characters')
+  }
+  
+  // Only require author name if it's provided (for updates)
+  if (post.author_name !== undefined) {
+    if (post.author_name.trim().length === 0) {
+      errors.push('Author name cannot be empty')
+    }
+  }
+  
+  // Only validate tags if they're provided
+  if (post.tags !== undefined && post.tags !== null) {
+    if (Array.isArray(post.tags)) {
+      if (post.tags.length > 10) {
+        errors.push('Maximum 10 tags allowed')
+      }
+      
+      for (const tag of post.tags) {
+        if (tag.length > 30) {
+          errors.push('Each tag must be less than 30 characters')
+        }
       }
     }
   }
@@ -47,8 +63,11 @@ const validateBlogPost = (post: Partial<BlogPost>): string[] => {
 // Check if user is authorized to perform blog operations
 const checkAuthorization = async (): Promise<boolean> => {
   try {
-    const isAdmin = await authService.isAdmin()
-    return isAdmin
+    const currentUser = await authService.getCurrentUser();
+    if (!currentUser) return false;
+    
+    const userIsAdmin = await authService.isAdmin();
+    return userIsAdmin;
   } catch (error) {
     console.error('Authorization check failed:', error)
     return false
@@ -139,7 +158,7 @@ export async function createBlog(post: Partial<BlogPost>) {
 }
 
 // Update a blog post
-export async function updateBlog(id: string, post: Partial<BlogPost>) {
+export async function updateBlog(id: number | string, post: Partial<BlogPost>) {
   // Check authorization
   const isAuthorized = await checkAuthorization()
   if (!isAuthorized) {
@@ -152,15 +171,51 @@ export async function updateBlog(id: string, post: Partial<BlogPost>) {
     throw new Error(errors.join(', '))
   }
   
+  console.log('Updating blog post with ID:', id);
+  console.log('Update data:', post);
+  
+  // Validate ID
+  if (!id) {
+    throw new Error('Blog post ID is required')
+  }
+  
+  // Convert ID to string for database query
+  const idString = id.toString();
+  
+  // First, check if the blog post exists
+  const { data: existingData, error: existingError } = await supabase
+    .from('blog_posts')
+    .select('*')
+    .eq('id', idString)
+  
+  if (existingError) {
+    console.error('Error checking existing blog post:', existingError);
+    throw new Error(`Error checking existing blog post: ${existingError.message}`)
+  }
+  
+  console.log('Existing blog post data:', existingData);
+  
+  if (!existingData || existingData.length === 0) {
+    throw new Error(`No blog post found with ID: ${idString}`)
+  }
+  
+  // Update the blog post using maybeSingle to avoid 406 errors
   const { data, error } = await supabase
     .from('blog_posts')
     .update(post)
-    .eq('id', id)
+    .eq('id', idString)
     .select()
-    .single()
+    .maybeSingle()
 
   if (error) {
-    throw new Error(error.message)
+    console.error('Error updating blog post:', error);
+    throw new Error(`Failed to update blog post: ${error.message}`)
+  }
+  
+  console.log('Update result data:', data);
+  
+  if (!data) {
+    throw new Error('Failed to update blog post. Please check the data and try again.')
   }
 
   return data as BlogPost

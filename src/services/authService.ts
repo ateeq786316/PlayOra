@@ -9,14 +9,17 @@ export interface AuthUser {
 
 // Sign in with email and password
 export async function signIn(email: string, password: string) {
+  console.log('Signing in with:', email, password);
+  
   // Check for hardcoded admin credentials in development
-  const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL
-  const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD
+  const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL || 'qasimtrustw@gmail.com';
+  const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'Playora01';
   
   if (import.meta.env.DEV && email === hardcodedEmail && password === hardcodedPassword) {
+    console.log('Using hardcoded credentials for development');
     // Simulate a successful login with admin role
     const mockUser = {
-      id: 'admin-user-id',
+      id: 'b4fcd0a7-96e0-42f5-9f99-bd793fffbd95', // Use the actual user ID
       email: hardcodedEmail,
       role: 'admin' as const
     }
@@ -36,11 +39,15 @@ export async function signIn(email: string, password: string) {
   })
 
   if (error) {
+    console.error('Supabase sign in error:', error);
     throw new Error(error.message)
   }
 
+  console.log('Supabase sign in successful:', data);
+  
   // Check if user has admin role
   const userRole = await getUserRole(data.user?.id || '')
+  console.log('User role:', userRole);
   
   return {
     user: data.user,
@@ -50,12 +57,14 @@ export async function signIn(email: string, password: string) {
 
 // Sign out
 export async function signOut() {
+  console.log('Signing out');
   // Remove dev admin user from localStorage
   localStorage.removeItem('dev-admin-user')
   
   const { error } = await supabase.auth.signOut()
   
   if (error) {
+    console.error('Sign out error:', error);
     throw new Error(error.message)
   }
   
@@ -64,20 +73,27 @@ export async function signOut() {
 
 // Get current user
 export async function getCurrentUser() {
+  console.log('Getting current user');
   // Check for dev admin user first
   if (import.meta.env.DEV) {
     const devUser = localStorage.getItem('dev-admin-user')
     if (devUser) {
+      console.log('Using dev user from localStorage');
       return JSON.parse(devUser)
     }
   }
   
   const { data: { user } } = await supabase.auth.getUser()
+  console.log('Supabase user:', user);
   
-  if (!user) return null
+  if (!user) {
+    console.log('No user found');
+    return null
+  }
   
   // Check if user has admin role
   const role = await getUserRole(user.id)
+  console.log('User role from database:', role);
   
   return {
     id: user.id,
@@ -88,6 +104,7 @@ export async function getCurrentUser() {
 
 // Get user role from user_roles table
 export async function getUserRole(userId: string) {
+  console.log('Getting user role for user ID:', userId);
   const { data, error } = await supabase
     .from('user_roles')
     .select('role')
@@ -95,28 +112,34 @@ export async function getUserRole(userId: string) {
     .single()
 
   if (error || !data) {
+    console.error('Error getting user role:', error);
     return null
   }
 
+  console.log('User role data:', data);
   return data.role
 }
 
 // Check if user is admin
 export async function isAdmin() {
   const user = await getCurrentUser()
-  return user?.role === 'admin'
+  const isAdminUser = user?.role === 'admin'
+  console.log('Is admin check result:', isAdminUser);
+  return isAdminUser
 }
 
 // Sign up (for initial admin user creation)
 export async function signUp(email: string, password: string) {
+  console.log('Signing up with:', email, password);
   // Check for hardcoded admin credentials in development
-  const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL
-  const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD
+  const hardcodedEmail = import.meta.env.VITE_ADMIN_EMAIL || 'qasimtrustw@gmail.com';
+  const hardcodedPassword = import.meta.env.VITE_ADMIN_PASSWORD || 'Playora01';
   
   if (import.meta.env.DEV && email === hardcodedEmail && password === hardcodedPassword) {
+    console.log('Using hardcoded credentials for signup');
     // Simulate a successful signup with admin role
     const mockUser = {
-      id: 'admin-user-id',
+      id: 'b4fcd0a7-96e0-42f5-9f99-bd793fffbd95', // Use the actual user ID
       email: hardcodedEmail,
       role: 'admin' as const
     }
@@ -136,9 +159,11 @@ export async function signUp(email: string, password: string) {
   })
 
   if (error) {
+    console.error('Supabase signup error:', error);
     throw new Error(error.message)
   }
 
+  console.log('Supabase signup successful:', data);
   return data
 }
 

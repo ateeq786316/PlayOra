@@ -23,6 +23,7 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSubmit, onCancel }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log('BlogForm received blog prop:', blog);
     if (blog) {
       setTitle(blog.title);
       setSlug(blog.slug);
@@ -86,7 +87,8 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSubmit, onCancel }) => {
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `blog-covers/${fileName}`;
       
-      let { error: uploadError } = await supabase.storage
+      // Upload the file
+      const { data, error: uploadError } = await supabase.storage
         .from('blog-images')
         .upload(filePath, file);
         
@@ -95,13 +97,14 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSubmit, onCancel }) => {
       }
       
       // Get public URL for the uploaded image
-      const { data } = supabase.storage
+      const { data: { publicUrl } } = supabase.storage
         .from('blog-images')
         .getPublicUrl(filePath);
         
-      setCoverImage(data.publicUrl);
-    } catch (err) {
-      setError(err.message || 'Failed to upload image.');
+      setCoverImage(publicUrl);
+    } catch (err: any) {
+      const errorMessage = err.message || 'Failed to upload image.';
+      setError(errorMessage);
       console.error('Error uploading image:', err);
     } finally {
       setUploading(false);
@@ -128,18 +131,38 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSubmit, onCancel }) => {
         updated_at: new Date().toISOString()
       };
 
+      console.log('Submitting blog data:', blogData);
+      console.log('Blog ID for update:', blog?.id);
+
       if (blog) {
         // Update existing blog post
-        await blogService.updateBlog(blog.id.toString(), blogData);
+        console.log(`Calling updateBlog with ID: ${blog.id}`);
+        await blogService.updateBlog(blog.id, blogData);
       } else {
         // Create new blog post
+        console.log('Creating new blog post');
         await blogService.createBlog(blogData);
       }
 
       onSubmit();
-    } catch (err) {
-      setError('Failed to save blog post. Please try again.');
+    } catch (err: any) {
+      // More detailed error handling
+      let errorMessage = 'Failed to save blog post. Please try again.';
+      
+      if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      // If it's a network error, provide a more user-friendly message
+      if (err.message && err.message.includes('NetworkError')) {
+        errorMessage = 'Network error. Please check your connection and try again.';
+      }
+      
+      setError(errorMessage);
       console.error('Error saving blog post:', err);
+      
+      // Log additional debugging information
+      console.error('Full error object:', JSON.stringify(err, Object.getOwnPropertyNames(err)));
     } finally {
       setLoading(false);
     }
@@ -150,6 +173,15 @@ const BlogForm: React.FC<BlogFormProps> = ({ blog, onSubmit, onCancel }) => {
       {error && (
         <div className="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {error}
+        </div>
+      )}
+
+      {/* Debug information */}
+      {blog && (
+        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+          <p className="text-sm text-yellow-800">
+            <strong>Editing Blog Post:</strong> ID: {blog.id} | Title: {blog.title}
+          </p>
         </div>
       )}
 

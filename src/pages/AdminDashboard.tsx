@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PlusCircle, LogOut } from 'lucide-react';
-import { authService } from '../services/authServiceUpdated';
+import { authService } from '../services/authService';
 import { blogService } from '../services/blogService';
 import { BlogPost } from '../lib/supabaseClient';
 
@@ -19,13 +19,42 @@ const AdminDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBlogs();
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        console.log('Current user in AdminDashboard:', currentUser);
+        
+        if (!currentUser) {
+          console.log('No current user, redirecting to login');
+          navigate('/login');
+          return;
+        }
+        
+        const isAdmin = await authService.isAdmin();
+        console.log('Is admin in AdminDashboard:', isAdmin);
+        
+        if (!isAdmin) {
+          console.log('User is not admin, redirecting to login');
+          navigate('/login');
+          return;
+        }
+        
+        // User is authenticated and is admin, fetch blogs
+        fetchBlogs();
+      } catch (err) {
+        console.error('Error checking auth in AdminDashboard:', err);
+        navigate('/login');
+      }
+    };
+    
+    checkAuth();
+  }, [navigate]);
 
   const fetchBlogs = async () => {
     try {
       setLoading(true);
       const data = await blogService.getAllBlogs();
+      console.log('Fetched blogs:', data);
       setBlogs(data);
     } catch (err) {
       setError('Failed to fetch blogs');
@@ -41,6 +70,9 @@ const AdminDashboard: React.FC = () => {
   };
 
   const handleEdit = (blog: BlogPost) => {
+    console.log('handleEdit called with blog:', blog);
+    console.log('Blog ID type:', typeof blog.id);
+    console.log('Blog ID value:', blog.id);
     setSelectedBlog(blog);
     setIsFormOpen(true);
   };
@@ -120,7 +152,20 @@ const AdminDashboard: React.FC = () => {
             <p className="mt-1 text-sm text-gray-600">
               Manage all blog posts from here
             </p>
+            {/* Display blog count */}
+            <p className="mt-2 text-sm text-gray-500">
+              Total blog posts: {blogs.length}
+            </p>
           </div>
+          
+          {/* Display blog IDs for debugging */}
+          {blogs.length > 0 && (
+            <div className="px-4 py-2 bg-gray-50 border-b border-gray-200">
+              <p className="text-sm text-gray-600">
+                Blog IDs: {blogs.map(blog => blog.id).join(', ')}
+              </p>
+            </div>
+          )}
           
           <BlogList 
             blogs={blogs} 
@@ -136,6 +181,11 @@ const AdminDashboard: React.FC = () => {
                 <h3 className="text-lg font-medium text-gray-900">
                   {selectedBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
                 </h3>
+                {selectedBlog && (
+                  <p className="text-sm text-gray-500 mt-1">
+                    Editing blog ID: {selectedBlog.id}
+                  </p>
+                )}
               </div>
               <BlogForm 
                 blog={selectedBlog} 
