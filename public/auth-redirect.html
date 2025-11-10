@@ -14,8 +14,20 @@ button{background:#3F9C10;color:#fff;padding:10px 20px;border:none;border-radius
 <p>You can now open the <b>PlayOra</b> app and sign in to start booking grounds and matches.</p>
 <button onclick="openApp()">Open PlayOra App</button>
 <script>
-function openApp(){ window.location.href="playora://auth/callback"; }
-setTimeout(openApp,1000);
+function openApp() {
+  // Try to open the app
+  window.location.href = "playora://auth/callback";
+  
+  // Fallback for browsers that block the redirect
+  setTimeout(function() {
+    window.location.href = "playora://auth/callback";
+  }, 500);
+}
+
+// Auto-redirect when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  openApp();
+});
 </script>
 </body>
 </html>
