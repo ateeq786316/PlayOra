@@ -4,6 +4,14 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/reset-redirect",
+      "destination": "/reset-redirect.html"
+    },
+    {
+      "source": "/auth-redirect",
+      "destination": "/auth-redirect.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
