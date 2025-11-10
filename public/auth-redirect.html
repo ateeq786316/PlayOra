@@ -6,27 +6,51 @@
 <style>
 body{font-family:sans-serif;text-align:center;padding:50px;background:#f9fafb}
 h1{color:#3F9C10}
-button{background:#3F9C10;color:#fff;padding:10px 20px;border:none;border-radius:8px}
+button{background:#3F9C10;color:#fff;padding:10px 20px;border:none;border-radius:8px;cursor:pointer;}
 </style>
 </head>
 <body>
 <h1>✅ Email Verified Successfully!</h1>
 <p>You can now open the <b>PlayOra</b> app and sign in to start booking grounds and matches.</p>
-<button onclick="openApp()">Open PlayOra App</button>
+<button id="openAppButton">Open PlayOra App</button>
 <script>
 function openApp() {
-  // Try to open the app
-  window.location.href = "playora://auth/callback";
+  // Try multiple methods to open the app
+  try {
+    // Method 1: Direct location change
+    window.location.href = 'playora://auth/callback';
+    
+    // Method 2: Create iframe (better for some browsers)
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = 'playora://auth/callback';
+    document.body.appendChild(iframe);
+    
+    // Remove iframe after a short time
+    setTimeout(function() {
+      if (iframe && iframe.parentNode) {
+        iframe.parentNode.removeChild(iframe);
+      }
+    }, 1000);
+  } catch (e) {
+    console.log('Error opening app:', e);
+  }
   
-  // If app doesn't open within 5 seconds, redirect to Play Store
+  // If app doesn't open, redirect to Play Store after 5 seconds
   setTimeout(function() {
-    window.location.href = "https://play.google.com/store/apps/details?id=com.foryoubrothers.playzone";
+    window.location.href = 'https://play.google.com/store/apps/details?id=com.foryoubrothers.playzone';
   }, 5000);
 }
 
-// Auto-redirect when page loads
+// Set up button click handler
 document.addEventListener('DOMContentLoaded', function() {
-  openApp();
+  var button = document.getElementById('openAppButton');
+  if (button) {
+    button.addEventListener('click', openApp);
+  }
+  
+  // Auto-redirect when page loads with a small delay
+  setTimeout(openApp, 500);
 });
 </script>
 </body>
