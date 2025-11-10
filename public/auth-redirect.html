@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PlayOra Email Verified</title>
+<style>
+body{font-family:sans-serif;text-align:center;padding:50px;background:#f9fafb}
+h1{color:#3F9C10}
+button{background:#3F9C10;color:#fff;padding:10px 20px;border:none;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>✅ Email Verified Successfully!</h1>
+<p>You can now open the <b>PlayOra</b> app and sign in to start booking grounds and matches.</p>
+<button onclick="openApp()">Open PlayOra App</button>
+<script>
+function openApp(){ window.location.href="playora://auth/callback"; }
+setTimeout(openApp,1000);
+</script>
+</body>
+</html>

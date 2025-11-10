@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PlayOra Password Reset</title>
+<style>
+body{font-family:sans-serif;text-align:center;padding:50px;background:#f9fafb}
+h1{color:#3F9C10}
+button{background:#3F9C10;color:#fff;padding:10px 20px;border:none;border-radius:8px}
+</style>
+</head>
+<body>
+<h1>🔐 Reset Your Password</h1>
+<p>To reset your password, please open this link on the <b>same device</b> where you have the <b>PlayOra app</b> installed.</p>
+<button onclick="openApp()">Open PlayOra App</button>
+<script>
+function openApp(){ window.location.href="playora://auth/reset"; }
+setTimeout(openApp,1000);
+</script>
+</body>
+</html>
