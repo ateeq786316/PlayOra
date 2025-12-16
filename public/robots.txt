@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://playora.app/sitemap.xml
+Sitemap: https://www.playoraapp.com/sitemap.xml

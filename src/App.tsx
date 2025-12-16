@@ -1,52 +1,31 @@
-import React from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import DeleteAccount from "./pages/DeleteAccount";
-import Login from "./pages/Login";
-import AdminDashboard from "./pages/AdminDashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
-import TestConnection from "./pages/TestConnection";
+import React, { Suspense } from "react";
+import { BrowserRouter, useLocation } from "react-router-dom";
 
-const queryClient = new QueryClient();
+// Split the app into two shells:
+// - LinksShell: minimal JS for /links (public, AI-friendly entry)
+// - MainShell: the rest of the site (includes toasts/tooltips/query client, etc.)
+// This improves /links performance WITHOUT changing URLs, SEO tags, or accessibility.
+const MainShell = React.lazy(() => import("./shells/MainShell"));
+const LinksShell = React.lazy(() => import("./shells/LinksShell"));
+
+function ShellSwitch() {
+  const { pathname } = useLocation();
+  const isLinks = pathname === "/links" || pathname.startsWith("/links/");
+  return isLinks ? <LinksShell /> : <MainShell />;
+}
 
 const App = () => {
-  // Apply dark theme on component mount
   React.useEffect(() => {
-    document.documentElement.classList.add('dark');
+    // Keep your existing dark theme behavior
+    document.documentElement.classList.add("dark");
   }, []);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/delete-account" element={<DeleteAccount />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/test-connection" element={<TestConnection />} />
-            <Route 
-              path="/admin" 
-              element={
-                <ProtectedRoute>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              } 
-            />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <BrowserRouter>
+      <Suspense fallback={<div className="min-h-screen bg-background" aria-busy="true" />}>
+        <ShellSwitch />
+      </Suspense>
+    </BrowserRouter>
   );
 };
 

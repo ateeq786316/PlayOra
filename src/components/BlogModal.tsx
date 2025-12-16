@@ -8,7 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Clock, Calendar, User, Tag, Share2 } from 'lucide-react';
 import { Button } from './ui/button';
 import { BlogPost } from '../models/types';
-import { formatDate, getReadingTime, parseMarkdown } from '../utils/helpers';
+import { formatDate, getReadingTime } from '../utils/helpers';
+import { parseMarkdown } from '../utils/markdown';
 
 interface BlogModalProps {
   blog: BlogPost;

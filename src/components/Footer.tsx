@@ -3,7 +3,6 @@
  * Site footer with links and social media
  */
 
-import { motion } from 'framer-motion';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
 import playoraLogo from '../assets/playora-logo.svg';
@@ -104,6 +103,8 @@ export default function Footer() {
             © 2024 PlayOra. All rights reserved.
           </p>
           <div className="flex space-x-4 sm:space-x-6 mt-3 sm:mt-4 md:mt-0">
+            <a href="/links" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">Official Links</a>
+            <a href="/what-is-playora" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">What is PlayOra?</a>
             <a href="/privacy-policy" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Privacy Policy</a>
             <a href="/delete-account" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Delete Account</a>
           </div>

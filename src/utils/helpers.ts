@@ -3,8 +3,8 @@
  * Helper functions used throughout the application
  */
 
-import { marked } from 'marked';
-import DOMPurify from 'dompurify';
+// IMPORTANT: Keep this file lightweight.
+// Heavy dependencies (marked, dompurify) are isolated in src/utils/markdown.ts
 
 /**
  * Format date to human readable format
@@ -50,26 +50,7 @@ export function slugify(text: string): string {
 /**
  * Sanitize HTML content
  */
-export function sanitizeHTML(html: string): string {
-  return DOMPurify.sanitize(html, {
-    ALLOWED_TAGS: ['p', 'br', 'strong', 'em', 'u', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ul', 'ol', 'li', 'a', 'img', 'blockquote', 'code', 'pre'],
-    ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'target', 'rel']
-  });
-}
 
-/**
- * Parse and render markdown content safely
- */
-export async function parseMarkdown(content: string): Promise<string> {
-  // Check if content is already HTML
-  if (content.trim().startsWith('<')) {
-    return sanitizeHTML(content);
-  }
-  
-  // Parse markdown and sanitize
-  const htmlContent = await marked(content);
-  return sanitizeHTML(htmlContent);
-}
 
 /**
  * Truncate text to specified length with ellipsis
