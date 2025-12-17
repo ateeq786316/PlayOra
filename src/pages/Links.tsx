@@ -132,6 +132,9 @@ const Links: React.FC = () => {
           <p className="text-textLight/60 text-xs sm:text-sm">© 2024 PlayOra. All rights reserved.</p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs sm:text-sm">
             <Link to="/" className="text-textLight/60 hover:text-primary transition-colors">Home</Link>
+            <Link to="/book-grounds-pakistan" className="text-textLight/60 hover:text-primary transition-colors">Book Grounds</Link>
+            <Link to="/teams" className="text-textLight/60 hover:text-primary transition-colors">Teams</Link>
+            <Link to="/sports" className="text-textLight/60 hover:text-primary transition-colors">Sports</Link>
             <Link to="/what-is-playora" className="text-textLight/60 hover:text-primary transition-colors">What is PlayOra?</Link>
             <Link to="/privacy-policy" className="text-textLight/60 hover:text-primary transition-colors">Privacy Policy</Link>
             <Link to="/delete-account" className="text-textLight/60 hover:text-primary transition-colors">Delete Account</Link>

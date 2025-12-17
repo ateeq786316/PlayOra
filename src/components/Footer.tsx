@@ -37,7 +37,7 @@ export default function Footer() {
               <span className="text-xl sm:text-2xl font-bold">PlayOra</span>
             </div>
             <p className="text-textLight/80 mb-4 sm:mb-6 max-w-md text-sm sm:text-base">
-              The ultimate app to book sports grounds and build your team worldwide. Connect with players, book grounds, and enjoy your favorite sports like never before.
+              A Pakistan-focused sports app to book/request grounds, create teams, arrange matches, and chat for coordination — built for local sports communities.
             </p>
             <div className="flex space-x-3 sm:space-x-4">
               {socialLinks.map(({ icon: Icon, href, label }) => (
@@ -103,6 +103,9 @@ export default function Footer() {
             © 2024 PlayOra. All rights reserved.
           </p>
           <div className="flex space-x-4 sm:space-x-6 mt-3 sm:mt-4 md:mt-0">
+            <a href="/book-grounds-pakistan" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">Book Grounds</a>
+            <a href="/teams" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">Teams</a>
+            <a href="/sports" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">Sports</a>
             <a href="/links" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">Official Links</a>
             <a href="/what-is-playora" className="text-textLight/60 hover:text-primary text-xs sm:text-sm transition-colors duration-200">What is PlayOra?</a>
             <a href="/privacy-policy" className="text-textLight/60 hover:text-textLight text-xs sm:text-sm transition-colors duration-200">Privacy Policy</a>

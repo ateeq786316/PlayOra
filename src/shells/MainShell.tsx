@@ -16,6 +16,9 @@ const DeleteAccount = React.lazy(() => import("../pages/DeleteAccount"));
 const Login = React.lazy(() => import("../pages/Login"));
 const AdminDashboard = React.lazy(() => import("../pages/AdminDashboard"));
 const WhatIsPlayOra = React.lazy(() => import("../pages/WhatIsPlayOra"));
+const BookGroundsPakistan = React.lazy(() => import("../pages/BookGroundsPakistan"));
+const TeamsPakistan = React.lazy(() => import("../pages/TeamsPakistan"));
+const SportsPakistan = React.lazy(() => import("../pages/SportsPakistan"));
 const TestConnection = React.lazy(() => import("../pages/TestConnection"));
 
 const queryClient = new QueryClient();
@@ -31,6 +34,9 @@ export default function MainShell() {
         <Suspense fallback={<div className="min-h-screen bg-background" aria-busy="true" />}>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/book-grounds-pakistan" element={<BookGroundsPakistan />} />
+            <Route path="/teams" element={<TeamsPakistan />} />
+            <Route path="/sports" element={<SportsPakistan />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/delete-account" element={<DeleteAccount />} />
             <Route path="/login" element={<Login />} />
@@ -43,9 +49,9 @@ export default function MainShell() {
                 </ProtectedRoute>
               }
             />
-                        <Route path="/what-is-playora" element={<WhatIsPlayOra />} />
+            <Route path="/what-is-playora" element={<WhatIsPlayOra />} />
 
-{/* Keep catch-all last */}
+            {/* Keep catch-all last */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
