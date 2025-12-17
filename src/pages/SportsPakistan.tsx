@@ -133,7 +133,7 @@ const SportsPakistan: React.FC = () => {
               <div>
                 <h3 className="font-semibold">What sports and activities are supported on PlayOra?</h3>
                 <p>
-                  PlayOra supports many sports and activities including cricket, football, futsal, padel, badminton, basketball, tennis, volleyball, table tennis, squash, swimming, hockey, martial arts, archery, athletics, and more.
+                  PlayOra supports many sports and activities including cricket, football, futsal, badminton, basketball, tennis, volleyball, table tennis, squash, swimming, hockey, martial arts, archery, athletics, and more.
                 </p>
               </div>
               <div>
