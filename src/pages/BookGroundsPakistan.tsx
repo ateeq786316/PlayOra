@@ -36,7 +36,7 @@ const BookGroundsPakistan: React.FC = () => {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "PlayOra helps you book or request sports grounds across Pakistan—cricket, football, futsal, badminton and more. Find slots in Karachi, Lahore and Islamabad."
+        "PlayOra helps Pakistan sports communities book/request grounds, coordinate slots, and stay organized with in-app chat. Find grounds for cricket, football, futsal, badminton and more across Pakistan."
       );
     }
 
@@ -132,8 +132,7 @@ const BookGroundsPakistan: React.FC = () => {
           <div className="rounded-2xl border border-textLight/10 bg-card/20 p-6 sm:p-8 mb-10">
             <h2 className="text-xl sm:text-2xl font-semibold mb-3">Pakistan-wide intent (cities)</h2>
             <p className="text-textLight/80 mb-4">
-              People often search for terms like “sports ground booking app Pakistan”, “cricket ground booking Karachi”, “football ground booking Lahore”, or “futsal ground booking Pakistan”. PlayOra is built for Pakistan-wide coverage across multiple cities (availability depends on participating grounds).
-
+              People often search for terms like “ground booking app near me” or “sports ground booking in my city”. PlayOra is designed for Pakistan-wide coverage.
             </p>
             <div className="flex flex-wrap gap-2">
               {CITIES.map((c) => (
@@ -160,20 +159,6 @@ const BookGroundsPakistan: React.FC = () => {
                 <h3 className="font-semibold">Which sports can I book or request grounds for?</h3>
                 <p>
                   PlayOra supports a wide range of sports and activities such as cricket, football, futsal, badminton, basketball, tennis, volleyball, squash, swimming, hockey, martial arts, and more.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold">Can I request a cricket ground in Karachi using PlayOra?</h3>
-                <p>
-                  PlayOra is built for Pakistan-wide coverage and can include major cities like Karachi. You can discover grounds, choose a time slot, and send a booking/request. Availability depends on participating grounds.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold">Does PlayOra support futsal and other sports across Pakistan?</h3>
-                <p>
-                  Yes. PlayOra supports many sports categories (including futsal, football, cricket, badminton, basketball and more). See the{" "}
-                  <Link className="text-primary hover:underline" to="/sports">Sports Supported</Link>{" "}
-                  page for the full list.
                 </p>
               </div>
               <div>

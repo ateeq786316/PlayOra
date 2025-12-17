@@ -16,6 +16,6 @@ export const ENTITY = {
   sportsPage: "https://www.playoraapp.com/sports",
   playStoreUrl: "https://play.google.com/store/apps/details?id=com.foryoubrothers.playzone",
   instagramUrl: "https://www.instagram.com/playora.app/",
-  facebookUrl: "https://www.facebook.com/profile.php?id=61578953536480",
+  facebookUrl: "https://www.facebook.com/people/PlayOra/61578953536480/",
   supportEmail: "playorahelpcenter@gmail.com",
 } as const;

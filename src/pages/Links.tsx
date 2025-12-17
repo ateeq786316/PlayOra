@@ -100,7 +100,7 @@ const Links: React.FC = () => {
             </a>
 
             <a
-              href="https://www.facebook.com/profile.php?id=61578953536480"
+              href="https://www.facebook.com/people/PlayOra/61578953536480/"
               className="rounded-2xl border border-textLight/15 bg-card/40 p-5 hover:border-primary/60 transition-colors"
               target="_blank"
               rel="noopener noreferrer"

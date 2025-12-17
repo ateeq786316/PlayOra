@@ -48,6 +48,7 @@ export function getBaseJsonLd() {
         name: ENTITY.appName,
         applicationCategory: "SportsApplication",
         operatingSystem: "Android",
+        countriesSupported: ["PK"],
         url: ENTITY.website,
         downloadUrl: ENTITY.playStoreUrl,
         publisher: { "@id": orgId },
@@ -104,7 +105,7 @@ export function getWhatIsPlayOraJsonLd() {
       name: "Can I book futsal grounds using PlayOra?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PlayOra supports ground discovery and booking/request flows for sports like futsal. Availability depends on participating grounds in your area.",
+        text: "PlayOra can be used to request/book futsal grounds in Pakistan depending on participating venues. You can also create teams, arrange matches, and chat in-app."
       },
     },
     {
@@ -175,7 +176,7 @@ export function getBookGroundsPakistanJsonLd() {
       name: "Which sports can I book or request grounds for?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PlayOra supports a wide range of sports and activities such as cricket, football, futsal, badminton, basketball, tennis, volleyball, squash, swimming, hockey, martial arts, and more.",
+        text: "PlayOra supports many sports and activities including Archery, Athletics, Badminton, Baseball, Basketball, Boxing, Cricket, Cycling, Football, Futsal, Golf, Gymnastics, Hockey, Horse Riding, Judo, Kabaddi, Karate, Martial Arts, Padel, Rugby, Shooting, Squash, Swimming, Table Tennis, Tennis, and Volleyball. You can request/book grounds for these sports depending on participating venues."
       },
     },
     {
@@ -184,22 +185,6 @@ export function getBookGroundsPakistanJsonLd() {
       acceptedAnswer: {
         "@type": "Answer",
         text: "Yes. PlayOra is built for Pakistan cities and local sports communities. Coverage can include major cities such as Karachi, Lahore, Islamabad, Rawalpindi, Faisalabad, Multan, Peshawar and more (depending on participating grounds).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Can I request a cricket ground in Karachi using PlayOra?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "PlayOra is built for Pakistan-wide coverage and can include major cities like Karachi. You can discover grounds, choose a time slot, and send a booking/request (availability depends on participating grounds).",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Does PlayOra support futsal and other sports across Pakistan?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Yes. PlayOra supports many sports categories (including futsal, football, cricket, badminton, basketball and more). For the full list of supported sports, visit the Sports Supported page on the official website.",
       },
     },
     {
@@ -278,7 +263,7 @@ export function getTeamsPakistanJsonLd() {
       name: "Can users review grounds and matches?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PlayOra supports review flows for grounds and match experiences so communities can make better decisions.",
+        text: "Yes. PlayOra lets players review grounds and match experiences so communities can make better decisions over time."
       },
     },
     {
@@ -325,7 +310,7 @@ export function getSportsPakistanJsonLd() {
       name: "What sports and activities are supported on PlayOra?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "PlayOra supports many sports and activities including cricket, football, futsal, badminton, basketball, tennis, volleyball, table tennis, squash, swimming, hockey, martial arts, archery, athletics, and more.",
+        text: "PlayOra supports many sports and activities including Archery, Athletics, Badminton, Baseball, Basketball, Boxing, Cricket, Cycling, Football, Futsal, Golf, Gymnastics, Hockey, Horse Riding, Judo, Kabaddi, Karate, Martial Arts, Padel, Rugby, Shooting, Squash, Swimming, Table Tennis, Tennis, and Volleyball. Explore the full list on the Sports page and then use PlayOra to request/book grounds and coordinate teams."
       },
     },
     {

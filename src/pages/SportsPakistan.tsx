@@ -5,6 +5,24 @@ import { getSportsPakistanJsonLd } from "@/seo/schema";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {
+
+const CITIES = [
+  "Karachi",
+  "Lahore",
+  "Islamabad",
+  "Rawalpindi",
+  "Faisalabad",
+  "Multan",
+  "Peshawar",
+  "Quetta",
+  "Gujranwala",
+  "Sialkot",
+  "Hyderabad",
+  "Bahawalpur",
+  "Sargodha",
+  "Abbottabad",
+  "Sukkur",
+];
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
@@ -50,7 +68,7 @@ const SportsPakistan: React.FC = () => {
     if (metaDescription) {
       metaDescription.setAttribute(
         "content",
-        "PlayOra supports many sports and activities across Pakistan. Book/request grounds, create teams, arrange matches, and chat—see the full sports list supported on PlayOra."
+        "PlayOra supports many sports and activities in Pakistan. Explore supported sports, then use PlayOra to request/book grounds and coordinate teams and matches across major Pakistani cities."
       );
     }
 
@@ -88,6 +106,23 @@ const SportsPakistan: React.FC = () => {
           <p className="text-base sm:text-lg text-textLight/80 max-w-3xl mb-8">
             PlayOra supports multiple sports and activities for Pakistan sports communities. You can <strong>book/request grounds</strong>, <strong>create teams</strong>, <strong>arrange matches</strong>, and <strong>chat</strong> for coordination.
           </p>
+<div className="rounded-2xl border border-textLight/10 bg-card/20 p-6 mb-10">
+  <h2 className="text-xl font-semibold mb-2">Across Pakistan (major cities)</h2>
+  <p className="text-textLight/80">
+    PlayOra is built for Pakistan-wide sports communities. You can use the app to coordinate teams and request/book grounds in cities like:
+  </p>
+  <div className="flex flex-wrap gap-2 mt-4">
+    {CITIES.map((c) => (
+      <span key={c} className="text-sm rounded-full border border-textLight/10 px-3 py-1">
+        {c}
+      </span>
+    ))}
+  </div>
+  <p className="text-xs text-textLight/60 mt-3">
+    Coverage depends on participating grounds and can expand over time.
+  </p>
+</div>
+
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-10">
             <div className="rounded-2xl border border-textLight/10 bg-card/20 p-6">
