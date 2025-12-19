@@ -5,6 +5,13 @@ import { getSportsPakistanJsonLd } from "@/seo/schema";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "../components/ui/breadcrumb";
 
 const CITIES = [
   "Karachi",
@@ -23,13 +30,7 @@ const CITIES = [
   "Abbottabad",
   "Sukkur",
 ];
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "../components/ui/breadcrumb";
+
 
 const SPORTS = [
   "Archery",
